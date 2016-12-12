@@ -14,11 +14,20 @@ body {
 
 .selected-image, .select-video {
   height: 500px;
+  position: relative;
 }
 
-.selected-image img, .select-video video {
+.selected-image img {
   width: 100%;
   height: 450px;
+}
+ .select-video video {
+  position:absolute;
+  top:0;
+  /*width: 100%;
+  height: 450px;*/
+      width: 100%;
+    height: 100%
 }
 
 .image-thumbnail, .video-thumbnail {
@@ -29,6 +38,7 @@ body {
 }
 
 .image-thumbnail img, .video-thumbnail video {
+  cursor: pointer;
   width: 70px;
   height: 70px;
   padding: 1px;

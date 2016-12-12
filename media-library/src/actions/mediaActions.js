@@ -3,7 +3,7 @@ export const selectImageAction=(image)=>({
     type:types.SELECTED_IMAGE,
     image
 });
-export  const selecteVedioAction=(video)=>({
+export  const selectVideoAction=(video)=>({
     type:types.SELECTED_VIDEO,
     video
 

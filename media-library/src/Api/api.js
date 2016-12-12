@@ -9,9 +9,8 @@ const authParameters = {
   }
 };
 export const shutterStockVideos = (searchQuery) => {
-  const SHUTTERSTOCK_API_ENDPOINT = `https://api.shutterstock.com/v2/videos/search?
-  query=${searchQuery}&page=1&per_page=10`;
-
+  const SHUTTERSTOCK_API_ENDPOINT = `https://api.shutterstock.com/v2/videos/search?query=${searchQuery}&page=1&per_page=10`;
+console.log(searchQuery,'searchQuery')
   return fetch(SHUTTERSTOCK_API_ENDPOINT, authParameters)
   .then(response => {
     return response.json();

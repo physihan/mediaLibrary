@@ -1,36 +1,134 @@
-import React, { Component} from 'react'
-import {connect} from 'react-redux';
-// import { flickrImages, shutterStockVideos } from '../Api/api'
-import {searchMediaAction} from '../actions/mediaActions';
-class MediaGalleryPage extends Component {
-  // constructor (props) {
-  //   super(props)
-  // }
+// import React, { Component} from 'react'
+// import {connect} from 'react-redux';
+// // import { flickrImages, shutterStockVideos } from '../Api/api'
+// import {searchMediaAction} from '../actions/mediaActions';
+// import VideoPage from '../components/VideoPage';
+// import PhotoPage from '../components/PhotoPage';
+// class MediaGalleryPage extends Component {
+//   // constructor (props) {
+//   //   super(props)
+//   // }
 
-  componentDidMount () {
-     this.props.dispatch(searchMediaAction('rain'));
+//   componentDidMount () {
+//      this.props.dispatch(searchMediaAction('rain'));
+//   }
+
+//   render () {
+//      console.log(this.props.images, 'Images');
+//     console.log(this.props.videos, 'Videos');
+//     console.log(this.props.selectedImage, 'SelectedImage');
+//     console.log(this.props.selectedVideo, 'SelectedVideo');
+//     return (
+//       <div>
+//       <PhotoPage/>
+//       <VideoPage/>
+
+//       </div>
+//     )
+//   }
+// }
+
+// // We use ES6 destructuring assignment to extract images and videos from the store’s state.
+// const mapStateToProps = ({images,videos}) => ({
+
+//     images:images[0],
+//     selectedImage:images.selectedImage,
+//     videos:videos[0],
+//     selectedVideo:videos.selectedVideo
+
+// })
+
+// export default connect(mapStateToProps)(MediaGalleryPage);
+import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
+import {selectImageAction, searchMediaAction,selectVideoAction } from '../actions/mediaActions';
+import PhotoPage from '../components/PhotoPage';
+import VideoPage from '../components/VideoPage';
+import '../styles/styles.css';
+
+// MediaGalleryPage Component
+class MediaGalleryPage extends Component {
+  constructor() {
+    super();
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleSelectImage = this.handleSelectImage.bind(this);
+    this.handleSelectVideo = this.handleSelectVideo.bind(this);
   }
 
-  render () {
-     console.log(this.props.images, 'Images');
-    console.log(this.props.videos, 'Videos');
-    console.log(this.props.selecteImage, 'SelectedImage');
-    console.log(this.props.selectedVideo, 'SelectedVideo');
+  // Dispatches *searchMediaAction*  immediately after initial rendering
+ componentDidMount() {
+    this.props.dispatch(searchMediaAction('sun'));
+  }
+
+  // Dispatches *selectImageAction* when any image is clicked
+  handleSelectImage(selectedImage) {
+    this.props.dispatch(selectImageAction(selectedImage));
+  }
+
+  // Dispatches *selectvideoAction* when any video is clicked
+  handleSelectVideo(selectedVideo) {
+    this.props.dispatch(selectVideoAction(selectedVideo));
+  }
+
+  // Dispatches *searchMediaAction* with query param.
+  // We ensure action is dispatched to the store only if query param is provided.
+  handleSearch(event) {
+    event.preventDefault();
+    if (this.query !== null) {
+      this.props.dispatch(searchMediaAction(this.query.value));
+      this.query.value = '';
+    }
+  }
+
+  render() {
+    const { images, selectedImage, videos, selectedVideo } = this.props;
     return (
-      <div>
+      <div className="container-fluid">
+        {images ? <div>
+          <input
+            type="text"
+            ref={ref => (this.query = ref)}
+          />
+          <input
+            type="submit"
+       className="btn btn-primary"
+            value="Search Library"
+            onClick={this.handleSearch}
+          />
+          <div className="row">
+            <PhotoPage
+              images={images}
+              selectedImage={selectedImage}
+              onHandleSelectImage={this.handleSelectImage}
+            />
+            <VideoPage
+              videos={videos}
+              selectedVideo={selectedVideo}
+              onHandleSelectVideo={this.handleSelectVideo}
+            />
+          </div>
+        </div> : 'loading ....'}
       </div>
-    )
+    );
   }
 }
 
-// We use ES6 destructuring assignment to extract images and videos from the store’s state.
-const mapStateToProps = ({images,videos}) => ({
+// Define PropTypes
+MediaGalleryPage.propTypes = {
+  images: PropTypes.array,
+  selectedImage: PropTypes.object,
+  videos: PropTypes.array,
+  selectedVideo: PropTypes.object,
+  dispatch: PropTypes.func.isRequired
+};
 
-    images:images[0],
-    selectedImage:images.selectedImage,
-    videos:videos[0],
-    selectedvideo:videos.selectedVIdeo
+ // Subscribe component to redux store and merge the state into component's props
+const mapStateToProps = ({ images, videos }) => ({
+  images: images[0],
+  selectedImage: images.selectedImage,
+  videos: videos[0],
+  selectedVideo: videos.selectedVideo
+});
 
-})
-
+// connect method from react-router connects the component with redux store
 export default connect(mapStateToProps)(MediaGalleryPage);
