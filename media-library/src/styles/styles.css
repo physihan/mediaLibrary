@@ -19,12 +19,17 @@ body {
 .selected-image img {
 
   width: 100%;
-  height: 450px;
+  /*height: auto;*/
+  height: 450px;  
+  
+  /*max-height: 450px;*/
 }
  .select-video video {
   
   width: 100%;
   height: 450px;
+  /*max-height: 450px;*/
+  
       /*width: 100%;
     height: 100%*/
 }

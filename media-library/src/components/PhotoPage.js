@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 
 const PhotoPage = ({images,onHandleSelectImage,selectedImage}) => {
     return (
-        <div className="clo-md-6">
+        <div className="col-md-6">
             <h2>Images</h2>
             <div className="selected-image">
                 <div id={selectedImage.id}>

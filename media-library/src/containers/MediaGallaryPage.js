@@ -85,7 +85,7 @@ class MediaGalleryPage extends Component {
     return (
       <div className="container-fluid">
         {images ? <div>
-          <input
+          <input 
             type="text"
             ref={ref => (this.query = ref)}
           />
